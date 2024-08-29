@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Recomendación de Candidatos</title>
+</head>
+<body>
+    <h1>Recomendación de Candidatos</h1>
+    
+    <label for="cargo">Selecciona un cargo:</label>
+    <input type="text" id="cargo">
+    
+    <button id="recomendar">Obtener Recomendación</button>
+    
+    <div id="resultado">
+        <!-- La recomendación se mostrará aquí -->
+    </div>
+    
+    <script>
+        document.getElementById('recomendar').addEventListener('click', function() {
+            const cargo = document.getElementById('cargo').value;
+            fetch(`http://127.0.0.1:8000/recomendaciones?cargo=${encodeURIComponent(cargo)}`)
+                .then(response => response.json())
+                .then(data => {
+                    const resultadoDiv = document.getElementById('resultado');
+                    resultadoDiv.innerHTML = `
+                        <h2>Recomendación para el cargo de ${cargo}:</h2>
+                        <p>${data.recomendacion}</p>
+                    `;
+                })
+                .catch(error => {
+                    console.error('Error al obtener la recomendación:', error);
+                    alert('Hubo un error al obtener la recomendación. Por favor, intenta nuevamente.');
+                });
+        });
+    </script>
+</body>
+</html>
