@@ -25,19 +25,9 @@ async def obtener_recomendaciones(cargo: str, usuario=Depends(validar_api_key)):
         print(f"Error al obtener la recomendación: {str(e)}")
         raise HTTPException(status_code=500, detail="Error interno del servidor")
 
-
 @app.options("/recomendaciones")
 async def opciones():
     return JSONResponse({"status": "ok"}, headers={"Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "GET, POST, OPTIONS"})
-
-@app.get("/recomendaciones")
-async def obtener_recomendaciones(cargo: str):
-    try:
-        recomendacion = obtener_mejor_candidato(cargo)
-        return recomendacion
-    except Exception as e:
-        print(f"Error al obtener la recomendación: {str(e)}")
-        raise HTTPException(status_code=500, detail="Error interno del servidor")
 
 if __name__ == "__main__":
     import uvicorn

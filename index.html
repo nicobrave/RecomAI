@@ -148,7 +148,7 @@
     <script>
         document.getElementById('recomendar').addEventListener('click', function () {
             const cargo = document.getElementById('cargo').value;
-            fetch(`http://recomai.vercel.app/recomendaciones?cargo=${encodeURIComponent(cargo)}`)
+            fetch(`https://recomai.vercel.app/recomendaciones?cargo=${encodeURIComponent(cargo)}`)
                 .then(response => response.json())
                 .then(data => {
                     const resultadoDiv = document.getElementById('resultado');
