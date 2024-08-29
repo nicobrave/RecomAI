@@ -10,7 +10,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://nicobrave.github.io"],
+    allow_origins=["https://recomai.vercel.app/"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -25,15 +25,6 @@ async def obtener_recomendaciones(cargo: str, usuario=Depends(validar_api_key)):
         print(f"Error al obtener la recomendación: {str(e)}")
         raise HTTPException(status_code=500, detail="Error interno del servidor")
 
-app = FastAPI()
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 @app.options("/recomendaciones")
 async def opciones():
