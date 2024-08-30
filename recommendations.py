@@ -5,7 +5,8 @@ import os
 # Cargar la API key desde el entorno
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-df_trabajadores = pd.read_csv(r"C:\Users\Usuario\Desktop\RecomAI\trabajadores.csv")
+file_path = os.path.join(os.path.dirname(__file__), 'trabajadores.csv')
+df_trabajadores = pd.read_csv(file_path)
 
 def obtener_mejor_candidato(cargo: str):
     # Filtramos los trabajadores por el cargo
