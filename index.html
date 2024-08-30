@@ -1,176 +1,84 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reclutador IA para Work-ID</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <title>Recomendación de Candidatos</title>
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f9f9f9;
-            color: #333;
             margin: 0;
-            padding: 20px;
+            padding: 0;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            box-sizing: border-box;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
         }
-
-        header {
+        .container {
             text-align: center;
-            margin-bottom: 40px;
-        }
-
-        img {
-            width: 120px;
-            margin-bottom: 20px;
-        }
-
-        h1 {
-            color: #333;
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-
-        h2 {
-            color: #E65300;
-            font-size: 24px;
-            margin-top: 20px;
-        }
-
-        p {
-            font-size: 16px;
-            line-height: 1.6;
-            color: #666;
-            max-width: 600px;
-            margin: 0 auto 20px auto;
-        }
-
-        label {
-            font-size: 18px;
-            margin-bottom: 10px;
-            color: #333;
-        }
-
-        input[type="text"] {
-            padding: 10px;
-            font-size: 16px;
-            width: 100%;
-            max-width: 400px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            margin-bottom: 20px;
-            box-sizing: border-box;
-        }
-
-        button {
-            background-color: #E65300;
-            color: #fff;
-            padding: 10px 20px;
-            font-size: 16px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            width: 100%;
-            max-width: 200px;
-            box-sizing: border-box;
-        }
-
-        button:hover {
-            background-color: #cc4700;
-        }
-
-        #resultado {
-            margin-top: 30px;
-            width: 100%;
-            max-width: 600px;
-            text-align: center;
-            background-color: #fff;
+            background-color: white;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            box-sizing: border-box;
         }
-
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 28px;
-            }
-
-            h2 {
-                font-size: 22px;
-            }
-
-            p {
-                font-size: 14px;
-            }
-
-            input[type="text"] {
-                font-size: 14px;
-                padding: 8px;
-            }
-
-            button {
-                font-size: 14px;
-                padding: 8px;
-            }
-
-            #resultado {
-                padding: 15px;
-            }
+        h1 {
+            color: #333;
+        }
+        label {
+            margin-top: 10px;
+            display: block;
+        }
+        select, input[type="text"] {
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 16px;
+            width: 100%;
+            max-width: 300px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #E65300;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #cc4a00;
+        }
+        #resultado {
+            margin-top: 20px;
         }
     </style>
 </head>
-
 <body>
-    <header>
-        <img src="assets/logo-login 1.svg" alt="Logo Work-ID">
-        <h1>Reclutador IA para Work-ID</h1>
-        <p>Ingresa el cargo que estás buscando, y nuestro sistema de inteligencia artificial te recomendará el mejor
-            candidato en base a su experiencia y educación.</p>
-    </header>
-
-    <label for="cargo">Ingresa un cargo:</label>
-    <input type="text" id="cargo" placeholder="Escribe el cargo...">
-
-    <button id="recomendar">Obtener Recomendación</button>
-
-    <div id="resultado">
-        <!-- La recomendación se mostrará aquí -->
+    <div class="container">
+        <h1>Recomendación de Candidatos</h1>
+        
+        <label for="cargo">Selecciona un cargo:</label>
+        <input type="text" id="cargo" placeholder="Ingresa el cargo">
+        
+        <button id="recomendar">Obtener Recomendación</button>
+        
+        <div id="resultado">
+            <!-- La recomendación se mostrará aquí -->
+        </div>
     </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Obtener los cargos desde el backend y llenar el menú desplegable
-            fetch('https://recomai.onrender.com/cargos', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-API-KEY': '14af42625ea1a749250734a53742f8558cbcfb875ad2ce9d3e930bfcb0321926'  // Asegúrate de que la API key es la correcta
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Rellenar el select con los cargos más comunes
-                const select = document.getElementById('cargo');
-                data.cargos.slice(0, 15).forEach(cargo => {
-                    const option = document.createElement('option');
-                    option.value = cargo;
-                    option.text = cargo;
-                    select.appendChild(option);
-                });
-            })
-            .catch(error => console.error('Error:', error));
-            
             // Manejar el clic en el botón
             document.getElementById('recomendar').addEventListener('click', function() {
                 const cargo = document.getElementById('cargo').value;
+                if (!cargo) {
+                    alert('Por favor, ingresa un cargo.');
+                    return;
+                }
+
                 fetch(`https://recomai.onrender.com/recomendaciones?cargo=${encodeURIComponent(cargo)}`, {
                     method: 'GET',
                     headers: {
@@ -178,13 +86,25 @@
                         'X-API-KEY': '14af42625ea1a749250734a53742f8558cbcfb875ad2ce9d3e930bfcb0321926'  // Incluye la API key aquí también
                     }
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
                 .then(data => {
                     const resultadoDiv = document.getElementById('resultado');
-                    resultadoDiv.innerHTML = `
-                        <h2>Recomendación para el cargo de ${cargo}:</h2>
-                        <p>${data.recomendacion}</p>
-                    `;
+                    if (data && data.recomendacion) {
+                        resultadoDiv.innerHTML = `
+                            <h2>Recomendación para el cargo de ${cargo}:</h2>
+                            <p>${data.recomendacion}</p>
+                        `;
+                    } else {
+                        resultadoDiv.innerHTML = `
+                            <h2>Recomendación para el cargo de ${cargo}:</h2>
+                            <p>No se encontró una recomendación adecuada.</p>
+                        `;
+                    }
                 })
                 .catch(error => {
                     console.error('Error al obtener la recomendación:', error);
@@ -194,5 +114,4 @@
         });
     </script>
 </body>
-
 </html>
