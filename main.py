@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import config
+import requests
 import uvicorn
 import openai
 import os
@@ -19,8 +20,18 @@ app.add_middleware(
 )
 
 # Cargar los datos
-file_path = os.path.join(os.path.dirname(__file__), 'trabajadores.csv')
-df_trabajadores = pd.read_csv(file_path)
+# URL del archivo en Google Drive
+url = "https://drive.google.com/uc?export=download&id=1ZaYiCQ7oJEEcNHPT0z_UAvQvNLN4AN9W"
+
+# Realiza la solicitud GET para descargar el archivo
+response = requests.get(url)
+
+# Guarda el contenido en un archivo local
+with open('trabajadores.csv', 'wb') as file:
+    file.write(response.content)
+
+# Ahora puedes leer el archivo como lo harías normalmente
+df_trabajadores = pd.read_csv('trabajadores.csv')
 
 # Endpoint para obtener el cargo
 @app.get("/cargos")

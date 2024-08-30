@@ -1,12 +1,23 @@
 import pandas as pd
 import openai
 import os
+import requests
 
 # Cargar la API key desde el entorno
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-file_path = os.path.join(os.path.dirname(__file__), 'trabajadores.csv')
-df_trabajadores = pd.read_csv(file_path)
+# URL del archivo en Google Drive
+url = "https://drive.google.com/uc?export=download&id=1ZaYiCQ7oJEEcNHPT0z_UAvQvNLN4AN9W"
+
+# Realiza la solicitud GET para descargar el archivo
+response = requests.get(url)
+
+# Guarda el contenido en un archivo local
+with open('trabajadores.csv', 'wb') as file:
+    file.write(response.content)
+
+# Ahora puedes leer el archivo como lo harías normalmente
+df_trabajadores = pd.read_csv('trabajadores.csv')
 
 def obtener_mejor_candidato(cargo: str):
     # Filtramos los trabajadores por el cargo
