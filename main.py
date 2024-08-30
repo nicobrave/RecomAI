@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
 import config
 import requests
 import uvicorn
@@ -52,6 +53,12 @@ async def obtener_recomendaciones(cargo: str, api_key: str = Depends(validar_api
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
+
+@app.get("/", response_class=HTMLResponse)
+def serve_home():
+    with open("index.html") as f:
+        html_content = f.read()
+    return HTMLResponse(content=html_content, status_code=200)
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
