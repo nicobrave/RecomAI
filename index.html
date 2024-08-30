@@ -146,6 +146,7 @@
     </div>
 
     <script>
+<<<<<<< HEAD
         document.addEventListener("DOMContentLoaded", function() {
             // Obtener los cargos desde el backend y llenar el menú desplegable
             fetch('http://127.0.0.1:8000/cargos', {
@@ -178,6 +179,11 @@
                         'X-API-KEY': '14af42625ea1a749250734a53742f8558cbcfb875ad2ce9d3e930bfcb0321926'  // Incluye la API key aquí también
                     }
                 })
+=======
+        document.getElementById('recomendar').addEventListener('click', function () {
+            const cargo = document.getElementById('cargo').value;
+            fetch(`https://recomai.vercel.app/recomendaciones?cargo=${encodeURIComponent(cargo)}`)
+>>>>>>> 9ce8628c109b7d6b84123870c8e60c04925f3405
                 .then(response => response.json())
                 .then(data => {
                     const resultadoDiv = document.getElementById('resultado');
@@ -190,7 +196,10 @@
                     console.error('Error al obtener la recomendación:', error);
                     alert('Hubo un error al obtener la recomendación. Por favor, intenta nuevamente.');
                 });
+<<<<<<< HEAD
             });
+=======
+>>>>>>> 9ce8628c109b7d6b84123870c8e60c04925f3405
         });
     </script>
 </body>
