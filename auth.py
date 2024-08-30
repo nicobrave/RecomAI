@@ -6,21 +6,7 @@ from plans import limite_solicitudes
 
 def generar_api_key():
     """Genera una API key única."""
-    return secrets.token_hex(32)
-
-def crear_usuario(nombre: str, email: str, plan: str):
-    """Crea un nuevo usuario con una API key y lo almacena en MongoDB."""
-    api_key = generar_api_key()
-    nuevo_usuario = {
-        "nombre": nombre,
-        "email": email,
-        "api_key": api_key,
-        "plan": plan,
-        "solicitudes_realizadas": 0,
-        "fecha_creacion": datetime.datetime.utcnow()
-    }
-    db.usuarios.insert_one(nuevo_usuario)
-    return api_key
+    return secrets.token_hex(32)  # 64 caracteres hexadecimales
 
 def obtener_usuario_por_api_key(api_key: str):
     """Obtiene un usuario desde MongoDB usando su API key."""
@@ -44,10 +30,6 @@ async def validar_api_key(request: Request):
     usuario = obtener_usuario_por_api_key(api_key)
     if not usuario:
         raise HTTPException(status_code=403, detail="API key inválida")
-
-    # Verificar los límites de uso del plan de suscripción
-    if usuario["solicitudes_realizadas"] >= limite_solicitudes(usuario["plan"]):
-        raise HTTPException(status_code=429, detail="Límite de solicitudes alcanzado para este plan")
 
     # Incrementar el contador de solicitudes
     incrementar_solicitudes(api_key)

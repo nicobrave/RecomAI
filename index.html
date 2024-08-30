@@ -146,9 +146,38 @@
     </div>
 
     <script>
-        document.getElementById('recomendar').addEventListener('click', function () {
-            const cargo = document.getElementById('cargo').value;
-            fetch(`https://recomai.vercel.app/recomendaciones?cargo=${encodeURIComponent(cargo)}`)
+        document.addEventListener("DOMContentLoaded", function() {
+            // Obtener los cargos desde el backend y llenar el menú desplegable
+            fetch('http://127.0.0.1:8000/cargos', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-API-KEY': '14af42625ea1a749250734a53742f8558cbcfb875ad2ce9d3e930bfcb0321926'  // Asegúrate de que la API key es la correcta
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Rellenar el select con los cargos más comunes
+                const select = document.getElementById('cargo');
+                data.cargos.slice(0, 15).forEach(cargo => {
+                    const option = document.createElement('option');
+                    option.value = cargo;
+                    option.text = cargo;
+                    select.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+            
+            // Manejar el clic en el botón
+            document.getElementById('recomendar').addEventListener('click', function() {
+                const cargo = document.getElementById('cargo').value;
+                fetch(`http://127.0.0.1:8000/recomendaciones?cargo=${encodeURIComponent(cargo)}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-API-KEY': '14af42625ea1a749250734a53742f8558cbcfb875ad2ce9d3e930bfcb0321926'  // Incluye la API key aquí también
+                    }
+                })
                 .then(response => response.json())
                 .then(data => {
                     const resultadoDiv = document.getElementById('resultado');
@@ -161,6 +190,7 @@
                     console.error('Error al obtener la recomendación:', error);
                     alert('Hubo un error al obtener la recomendación. Por favor, intenta nuevamente.');
                 });
+            });
         });
     </script>
 </body>
