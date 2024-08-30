@@ -1,6 +1,10 @@
 fastapi
 uvicorn
+<<<<<<< HEAD
 pandas
 openai
 python-dotenv
+=======
+openai
+>>>>>>> 9ce8628c109b7d6b84123870c8e60c04925f3405
 pymongo
