@@ -14,11 +14,7 @@ def obtener_mejor_candidato(cargo: str):
     if candidatos.empty:
         return "No se encontró una recomendación adecuada."
     
-<<<<<<< HEAD
     # Primer candidato después de ordenar por experiencia, educación, etc.
-=======
-    # Tomamos el primer candidato después de ordenar por experiencia, educación, etc.
->>>>>>> 9ce8628c109b7d6b84123870c8e60c04925f3405
     mejor_candidato = candidatos.iloc[0]
     
     # Construimos el nombre completo
