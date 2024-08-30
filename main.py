@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 import config
 import requests
 import uvicorn
@@ -50,15 +51,15 @@ async def obtener_cargos():
 async def obtener_recomendaciones(cargo: str, api_key: str = Depends(validar_api_key)):
     return obtener_mejor_candidato(cargo)
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
+# Sirve la página HTML en la ruta principal
 @app.get("/", response_class=HTMLResponse)
-def serve_home():
-    with open("index.html") as f:
+async def serve_home():
+    with open("index.html", "r") as f:
         html_content = f.read()
-    return HTMLResponse(content=html_content, status_code=200)
+    return HTMLResponse(content=html_content)
+
+# Montar archivos estáticos (si tienes CSS, JS, imágenes, etc.)
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
