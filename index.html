@@ -148,7 +148,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Obtener los cargos desde el backend y llenar el menú desplegable
-            fetch('https://recomai.vercel.app/cargos', {
+            fetch('https://recomai.onrender.com/cargos', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -171,7 +171,7 @@
             // Manejar el clic en el botón
             document.getElementById('recomendar').addEventListener('click', function() {
                 const cargo = document.getElementById('cargo').value;
-                fetch(`https://recomai.vercel.app/recomendaciones?cargo=${encodeURIComponent(cargo)}`, {
+                fetch(`https://recomai.onrender.com/recomendaciones?cargo=${encodeURIComponent(cargo)}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
