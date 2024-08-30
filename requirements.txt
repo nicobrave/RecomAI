@@ -1,6 +1,5 @@
 fastapi
 uvicorn
-pandas
-openai
 python-dotenv
-pymongo
+openai
+pandas
