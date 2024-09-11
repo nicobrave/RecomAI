@@ -1,0 +1,91 @@
+/* styles.css */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    background-color: #f4f4f4;
+}
+
+.container {
+    width: 90%;
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+header.hero-section {
+    background-color: #007BFF; /* Azul Brillante */
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+header.hero-section h1 {
+    font-size: 2.5em;
+    margin: 0 0 20px 0;
+    animation: fadeIn 2s ease-in;
+}
+
+header.hero-section p {
+    font-size: 1.2em;
+    line-height: 1.5;
+    animation: fadeIn 3s ease-in;
+}
+
+a.btn-primary {
+    background-color: #50C878; /* Verde Esmeralda */
+    color: white;
+    padding: 10px 25px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+a.btn-primary:hover {
+    background-color: #45a062; /* Darker green */
+}
+
+section.benefits-section, .how-it-works-section, .testimonials-section, .cta-section {
+    background-color: white;
+    padding: 40px 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    animation: slideUp 1s ease-out;
+}
+
+.benefit {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.benefit h3 {
+    color: #007BFF; /* Blue */
+    margin-bottom: 10px;
+}
+
+.footer {
+    background-color: #202124; /* Gris Espacial */
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.footer a {
+    color: #FFD700; /* Amarillo Solar */
+    text-decoration: none;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Estilos adicionales para efectos visuales o ajustes responsivos aquí */

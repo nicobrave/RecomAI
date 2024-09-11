@@ -1,0 +1,22 @@
+# Ignorar el archivo de entorno que contiene claves API y otros secretos
+.env
+
+# Ignorar archivos de configuración específicos del entorno de desarrollo
+*.log
+*.env.*
+node_modules/
+.DS_Store
+.vscode/
+.venv/
+# Ignorar el archivo de entorno que contiene claves API y otros secretos
+.env
+
+# Ignorar archivos de configuración específicos del entorno de desarrollo
+*.log
+*.env.*
+node_modules/
+.DS_Store
+.vscode/
+.venv/
+
+__pycache__/
