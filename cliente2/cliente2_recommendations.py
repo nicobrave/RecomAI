@@ -17,7 +17,7 @@ def generar_recomendacion_cultivo(lat, lon):
         f"Como un agricultor ubicado en las coordenadas latitud {lat} y longitud {lon}, "
         f"deseo conocer los cultivos más adecuados para plantar durante la temporada de {estacion}. "
         "Por favor, proporciona una recomendación detallada que incluya tipos de cultivos, "
-        "condiciones climáticas favorables, y consejos prácticos para optimizar la producción."
+        "condiciones climáticas favorables, y consejos prácticos para optimizar la producción. La respuesta debe ajustarse a 300 tokens y no debe contener elementos de resalte de texto ni nada parecido. Explica la recomendación fácilmente"
     )
 
     try:
