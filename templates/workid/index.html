@@ -95,7 +95,6 @@
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             box-sizing: border-box;
         }
 
@@ -131,7 +130,7 @@
 
 <body>
     <header>
-        <img src="static/logo-login-1.png" alt="Logo Work-ID">
+        <img src="/static/logo-login-1.png" alt="Logo Work-ID">
         <h1>Reclutador IA para Work-ID</h1>
         <p>Este sistema de reclutamiento utiliza inteligencia artificial para identificar y recomendar el mejor candidato para un cargo específico. Analiza una base de datos con información detallada de miles de usuarios, filtrando los 15 cargos más comunes en función de la experiencia laboral y educación de los candidatos. A partir de esta información, el sistema consulta la IA, que realiza un análisis comparativo entre los candidatos disponibles. La IA evalúa factores clave como el último cargo ocupado, la experiencia acumulada y los estudios realizados, para proporcionar una recomendación precisa y alineada con las necesidades del puesto solicitado.</p>
     </header>
@@ -147,31 +146,14 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Obtener los cargos desde el backend y llenar el menú desplegable
-            fetch('https://recomai.onrender.com/cargos', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-API-KEY': '14af42625ea1a749250734a53742f8558cbcfb875ad2ce9d3e930bfcb0321926'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Rellenar el select con los cargos más comunes
-                const select = document.getElementById('cargo');
-                data.cargos.slice(0, 15).forEach(cargo => {
-                    const option = document.createElement('option');
-                    option.value = cargo;
-                    option.text = cargo;
-                    select.appendChild(option);
-                });
-            })
-            .catch(error => console.error('Error:', error));
-
             // Manejar el clic en el botón
             document.getElementById('recomendar').addEventListener('click', function () {
-                const cargo = document.getElementById('cargo').value;
-                fetch(`https://recomai.onrender.com/recomendaciones?cargo=${encodeURIComponent(cargo)}`, {
+                const cargo = document.getElementById('cargo').value.trim();
+                if (cargo === '') {
+                    alert('Por favor, ingresa un cargo.');
+                    return;
+                }
+                fetch(`/workid/recomendaciones?cargo=${encodeURIComponent(cargo)}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -180,7 +162,7 @@
                 })
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
+                        throw new Error(`Error en la solicitud: ${response.status}`);
                     }
                     return response.json();
                 })
