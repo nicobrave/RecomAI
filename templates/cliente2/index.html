@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recomendación de Cultivo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Recomendación de Cultivo</h1>
+        <p>Descubre qué cultivar en tu ubicación según la fecha y el clima actual.</p>
+        <button id="obtener-recomendacion" class="btn-primary">Obtener Recomendación</button>
+    </header>
+
+    <section id="resultado">
+        <h2>Recomendación</h2>
+        <p id="recomendacion-texto">Haz clic en el botón para recibir tu recomendación.</p>
+    </section>
+
+    <script>
+        document.getElementById('obtener-recomendacion').addEventListener('click', function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+
+                    fetch(`/cliente2/recomendacion-cultivo?lat=${lat}&lon=${lon}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-API-KEY': 'a0ee5983-25a3-4e9b-950e-e5585747164a'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('recomendacion-texto').textContent = data.recomendacion;
+                    })
+                    .catch(error => {
+                        document.getElementById('recomendacion-texto').textContent = 'Error al obtener la recomendación';
+                        console.error('Error:', error);
+                    });
+                });
+            } else {
+                alert("La geolocalización no es compatible con este navegador.");
+            }
+        });
+    </script>
+</body>
+</html>
