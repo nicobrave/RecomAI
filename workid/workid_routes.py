@@ -4,4 +4,5 @@ workid_bp = Blueprint('workid', __name__, template_folder='templates', static_fo
 
 @workid_bp.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('workid/index.html')
+

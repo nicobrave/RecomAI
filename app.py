@@ -10,6 +10,7 @@ app = Flask(__name__, template_folder='templates', static_folder='static')
 
 app.template_folder = Path(app.template_folder).parent / 'templates'
 
+
 CORS(app)
 
 # Registrar los blueprints con sus respectivos prefijos
