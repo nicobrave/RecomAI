@@ -1,0 +1,126 @@
+<!-- templates/cliente3/upload.html -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subir Factura</title>
+    <style>
+        /* Estilos existentes */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px;
+        }
+
+        input[type="file"] {
+            margin-bottom: 20px;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        #resultado {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #resultado h3 {
+            margin-top: 0;
+        }
+
+        #resultado ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #resultado li {
+            background-color: #f9f9f9;
+            margin-bottom: 5px;
+            padding: 10px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Validar Factura Electrónica</h1>
+    <form id="upload-form" action="/cliente3/upload_invoice" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".pdf,.png,.jpg,.jpeg" required>
+        <input type="submit" value="Subir Factura">
+    </form>
+
+    <div id="resultado">
+        <!-- La respuesta se mostrará aquí -->
+    </div>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            fetch('/cliente3/upload_invoice', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const resultadoDiv = document.getElementById('resultado');
+                resultadoDiv.innerHTML = ''; // Limpiar contenido previo
+
+                if (data.error) {
+                    // Mostrar error
+                    resultadoDiv.innerHTML += `<p style="color: red;">${data.error}</p>`;
+                }
+
+                if (data.data) {
+                    // Mostrar datos extraídos
+                    resultadoDiv.innerHTML += `<h3>Datos Extraídos:</h3>`;
+                    resultadoDiv.innerHTML += `<ul>`;
+                    for (const [key, value] of Object.entries(data.data)) {
+                        resultadoDiv.innerHTML += `<li><strong>${key}:</strong> ${value}</li>`;
+                    }
+                    resultadoDiv.innerHTML += `</ul>`;
+                }
+
+                if (data.validation_message) {
+                    resultadoDiv.innerHTML += `<p style="color: blue;">${data.validation_message}</p>`;
+                }
+
+                if (data.message) {
+                    resultadoDiv.innerHTML += `<p style="color: green;">${data.message}</p>`;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Hubo un error al procesar la factura. Por favor, intenta nuevamente.');
+            });
+        });
+    </script>
+</body>
+</html>
