@@ -5,17 +5,25 @@ import os
 import datetime
 import requests
 import pdfplumber
+import io
 
-# Cargar el CSV de incendios históricos
-csv_path = "fuego/Base de datos histórica de cicatrices de incendios chilenos - 1. Resumen.csv"
+# Descargar el CSV desde Google Drive
+def descargar_csv_desde_drive():
+    url = "https://drive.google.com/uc?export=download&id=1c-Ekzr-Ys4ea7G9RMfXkBI0OcziaN-ih"
+    response = requests.get(url)
+    
+    if response.status_code == 200:
+        csv_data = io.StringIO(response.text)
+        return pd.read_csv(csv_data, sep=';', quotechar='"', encoding='utf-8')
+    else:
+        print(f"Error al descargar el CSV: {response.status_code}")
+        return None
 
-# Ruta relativa al archivo PDF en tu proyecto
-pdf_path = os.path.join(os.getcwd(), 'cliente2', 'Suelos-de-Chile.pdf')
-
-def extraer_texto_pdf(csv_path):
+# Extraer el texto del archivo PDF
+def extraer_texto_pdf(pdf_path):
     try:
         # Abrir y procesar el PDF
-        with pdfplumber.open(csv_path) as pdf:
+        with pdfplumber.open(pdf_path) as pdf:
             texto = ""
             for pagina in pdf.pages:
                 texto += pagina.extract_text()
@@ -24,11 +32,15 @@ def extraer_texto_pdf(csv_path):
         print(f"Error al extraer texto del PDF: {e}")
         return None
 
-# Leer el archivo CSV
-df = pd.read_csv(csv_path, sep=';', quotechar='"', encoding='utf-8')
+# Descargar y leer el CSV de incendios históricos desde Google Drive
+df = descargar_csv_desde_drive()
 
-# Asegúrate de que las columnas tienen los nombres correctos
-df.columns = df.columns.str.replace('Latitude', 'Latitude').str.replace('Longitude', 'Longitude')
+if df is not None:
+    # Asegúrate de que las columnas tienen los nombres correctos
+    df.columns = df.columns.str.replace('Latitude', 'Latitude').str.replace('Longitude', 'Longitude')
+
+# Ruta relativa al archivo PDF en tu proyecto
+pdf_path = os.path.join(os.getcwd(), 'cliente2', 'Suelos-de-Chile.pdf')
 
 # Configurar la API key de OpenAI desde las variables de entorno
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -88,7 +100,7 @@ def obtener_recomendacion_fuego(lat, lon):
             velocidad_viento = datos_climaticos['wind']['speed']
 
             # Extraer texto del PDF
-            texto_pdf = extraer_texto_pdf(csv_path)
+            texto_pdf = extraer_texto_pdf(pdf_path)
             if not texto_pdf:
                 return "Error al procesar el archivo PDF.", None
 
