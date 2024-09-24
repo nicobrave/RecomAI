@@ -116,7 +116,7 @@ def generar_recomendacion_openai(df_trabajadores, cargo=None, comuna=None, nivel
         # Crear el prompt en formato de mensajes para el modelo de chat
         messages = [
             {"role": "system", "content": "Eres experto reclutando perfiles para minería y entiendes la flexibilidad en los criterios ingresados para privilegiar siempre una recomendación de perfil de manera clara y cercana, con un vocabulario simple y que no exceda los 300 tokens. En un párrafo lineal y coherente sin redundancias. Muy amigable."},
-            {"role": "user", "content": f"Estoy buscando perfiles adecuados para el cargo '{cargo}' en la comuna '{comuna}'. La ubicación es un factor importante, por lo que se priorizan perfiles cercanos a esta comuna. Si no encuentras un perfil exacto, sugiere el más apto o el que podría servir, pero solo uno, en el cargo según su experiencia y justifica la ubicación y la decisión sobre ese candidato. Aquí tienes los perfiles:"}
+            {"role": "user", "content": f"Estoy buscando perfiles adecuados para el cargo '{cargo}' en la comuna '{comuna}'. Lo más importante es el cargo del postulante, si bien la ubicación es un factor importante, por lo que se priorizan perfiles cercanos a esta comuna, siempre debe tener un peso mayor el cargo solicitado. Si no encuentras un perfil exacto, sugiere el más apto o el que podría servir, pero solo uno, en el cargo según su experiencia y justifica la ubicación y la decisión sobre ese candidato. Aquí tienes los perfiles:"}
         ]
 
         for perfil in perfiles_finales:
