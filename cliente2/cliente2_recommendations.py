@@ -14,11 +14,10 @@ def generar_recomendacion_cultivo(lat, lon):
     estacion = "primavera" if 3 <= fecha.month <= 5 else "verano" if 6 <= fecha.month <= 8 else "otoño" if 9 <= fecha.month <= 11 else "invierno"
 
     prompt = (
-    f"Soy un agricultor en las coordenadas latitud {lat} y longitud {lon}. "
-    f"Deseo saber los cultivos más rentables para la temporada de {estacion}. "
-    "Por favor, da una recomendación precisa que incluya el tipo de cultivo más rentable, "
-    "condiciones climáticas favorables y consejos breves para maximizar la producción. "
-    "Limita la respuesta a 300 tokens y no incluyas detalles innecesarios o resaltados."
+    f"Soy un agricultor en las coordenadas latitud {lat} y longitud {lon}, "
+    f"deseo conocer los cultivos más rentables para la temporada de {estacion}. "
+    "Proporciona una respuesta breve y concisa con máximo 3 cultivos rentables, sus condiciones climáticas y un consejo práctico por cada uno. "
+    "La respuesta debe ser de menos de 1000 caracteres."
 )
 
     try:
