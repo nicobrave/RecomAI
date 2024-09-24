@@ -11,13 +11,18 @@ import io
 def descargar_csv_desde_drive():
     url = "https://drive.google.com/uc?export=download&id=1c-Ekzr-Ys4ea7G9RMfXkBI0OcziaN-ih"
     response = requests.get(url)
-    
+ 
     if response.status_code == 200:
         csv_data = io.StringIO(response.text)
-        return pd.read_csv(csv_data, sep=';', quotechar='"', encoding='utf-8')
+        # Leer el archivo CSV en partes (chunks)
+        chunk_size = 10000  # Cambia esto según tus necesidades
+        df_iter = pd.read_csv(csv_data, sep=';', quotechar='"', encoding='utf-8', chunksize=chunk_size)
+        df = pd.concat(df_iter)  # Concatena los chunks en un solo DataFrame
+        return df
     else:
         print(f"Error al descargar el CSV: {response.status_code}")
         return None
+
 
 # Extraer el texto del archivo PDF
 def extraer_texto_pdf(pdf_path):
