@@ -6,7 +6,7 @@ import datetime
 import requests
 
 # Cargar el CSV de incendios históricos
-csv_path = "C:/Users/Usuario/Desktop/RecomAI/fuego/Base de datos histórica de cicatrices de incendios chilenos - 1. Resumen.csv"
+csv_path = "fuego/Base de datos histórica de cicatrices de incendios chilenos - 1. Resumen.csv"
 
 # Leer el archivo CSV
 df = pd.read_csv(csv_path, sep=';', quotechar='"', encoding='utf-8')
