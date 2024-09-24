@@ -56,12 +56,25 @@
             font-size: 20px;
             line-height: 1.6;
         }
+        .explanation {
+            margin-top: 40px;
+            text-align: center;
+            padding: 20px;
+            font-size: 18px;
+            background-color: #e8f5e9;
+            border-left: 5px solid #388e3c;
+            color: #2e7d32;
+        }
     </style>
 </head>
 <body>
     <header>
         <h1>Recomendación de Cultivo</h1>
-        <p>Descubre qué cultivar en tu ubicación según la fecha y el clima actual.</p>
+        <p>Descubre qué cultivar en tu ubicación según la fecha, clima y tipo de suelo.</p>
+        <div class="explanation">
+            Este sistema utiliza el <strong>Informe de Suelos de Chile</strong>, que contiene información detallada sobre los diferentes tipos de suelos y sus características en el país. Utilizamos este PDF junto con datos de ubicación geográfica y climática para generar recomendaciones de cultivo personalizadas. El algoritmo consulta a la inteligencia artificial de OpenAI, que considera factores como la estación del año, temperatura y tipo de suelo para sugerir los cultivos más adecuados para pequeños agricultores.
+        </div>
+
         <button id="obtener-recomendacion" class="btn-primary">Obtener Recomendación</button>
     </header>
 
@@ -69,6 +82,7 @@
         <h2>Recomendación</h2>
         <p id="recomendacion-texto">Haz clic en el botón para recibir tu recomendación.</p>
     </section>
+
 
     <script>
         document.getElementById('obtener-recomendacion').addEventListener('click', function() {
@@ -100,5 +114,6 @@
             }
         });
     </script>
+    
 </body>
 </html>

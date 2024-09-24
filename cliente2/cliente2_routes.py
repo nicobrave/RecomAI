@@ -13,6 +13,7 @@ def obtener_recomendacion_cultivo():
     lon = request.args.get('lon', type=float)
     if lat is None or lon is None:
         return jsonify({"error": "Latitud y longitud son requeridas"}), 400
-    # Suponiendo que 'generar_recomendacion_cultivo' es una función que exista y esté correctamente implementada
+    
+    # Llamar a la función generar_recomendacion_cultivo para obtener la recomendación
     recomendacion = generar_recomendacion_cultivo(lat, lon)
     return jsonify({"recomendacion": recomendacion})

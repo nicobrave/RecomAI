@@ -7,6 +7,7 @@ from cliente2.cliente2_routes import cliente2_bp
 from workid.workid_routes import workid_bp
 from cliente3.cliente3_routes import cliente3_bp
 from database import init_db_recomai, init_db_factura
+from fuego.fuego_routes import fuego_bp
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 app.template_folder = Path(app.template_folder).parent / 'templates'
@@ -21,6 +22,7 @@ CORS(app, resources={r"/*": {"origins": "https://www.recomai.cl"}})
 app.register_blueprint(workid_bp, url_prefix='/workid')
 app.register_blueprint(cliente2_bp, url_prefix='/cliente2')
 app.register_blueprint(cliente3_bp, url_prefix='/cliente3')
+app.register_blueprint(fuego_bp, url_prefix='/fuego')
 
 # Ruta para el landing page
 @app.route('/')

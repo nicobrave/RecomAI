@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_e987a2afa8a1c44755592c0e27373b65 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_e987a2afa8a1c44755592c0e27373b65" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_e987a2afa8a1c44755592c0e27373b65 = L.map(
+                "map_e987a2afa8a1c44755592c0e27373b65",
+                {
+                    center: [-33.7149952, -70.8378624],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 8,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_4fed8e6643aaecaf52ab1f0043abbb67 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors", "detectRetina": false, "maxNativeZoom": 19, "maxZoom": 19, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            );
+        
+    
+            tile_layer_4fed8e6643aaecaf52ab1f0043abbb67.addTo(map_e987a2afa8a1c44755592c0e27373b65);
+        
+    
+            var marker_0b409ec7518f6104634f68a862066198 = L.marker(
+                [-33.7149952, -70.8378624],
+                {}
+            ).addTo(map_e987a2afa8a1c44755592c0e27373b65);
+        
+    
+            var icon_b1d72340b01ab20d8ee4c25cdd28a46a = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "blue", "prefix": "glyphicon"}
+            );
+            marker_0b409ec7518f6104634f68a862066198.setIcon(icon_b1d72340b01ab20d8ee4c25cdd28a46a);
+        
+    
+        var popup_1b5eb702e8eb27efdeacbe3235581813 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_32989b68b8cad207c97f8ad2f575f608 = $(`<div id="html_32989b68b8cad207c97f8ad2f575f608" style="width: 100.0%; height: 100.0%;">Tu ubicación</div>`)[0];
+                popup_1b5eb702e8eb27efdeacbe3235581813.setContent(html_32989b68b8cad207c97f8ad2f575f608);
+            
+        
+
+        marker_0b409ec7518f6104634f68a862066198.bindPopup(popup_1b5eb702e8eb27efdeacbe3235581813)
+        ;
+
+        
+    
+    
+            var marker_2ba4283a69f1ab1d63239369f7d09e6d = L.marker(
+                [-33.353, -70.553],
+                {}
+            ).addTo(map_e987a2afa8a1c44755592c0e27373b65);
+        
+    
+            var icon_bc5a418af9a89a70769a57660f642b17 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "red", "prefix": "glyphicon"}
+            );
+            marker_2ba4283a69f1ab1d63239369f7d09e6d.setIcon(icon_bc5a418af9a89a70769a57660f642b17);
+        
+    
+        var popup_9fb5effc15cb65cf9df34c5a4a9f9d32 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_0b6bf6825213d4fb78ea715981174b75 = $(`<div id="html_0b6bf6825213d4fb78ea715981174b75" style="width: 100.0%; height: 100.0%;">Incendio: LOS TRAPENSES, Área: 15.0 ha</div>`)[0];
+                popup_9fb5effc15cb65cf9df34c5a4a9f9d32.setContent(html_0b6bf6825213d4fb78ea715981174b75);
+            
+        
+
+        marker_2ba4283a69f1ab1d63239369f7d09e6d.bindPopup(popup_9fb5effc15cb65cf9df34c5a4a9f9d32)
+        ;
+
+        
+    
+    
+            var marker_8d342e5ae82d097a5f887580ecdf2e9f = L.marker(
+                [-33.353, -70.553],
+                {}
+            ).addTo(map_e987a2afa8a1c44755592c0e27373b65);
+        
+    
+            var icon_49ef25b7b78f7d05b64f2a10b6ab38fc = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "red", "prefix": "glyphicon"}
+            );
+            marker_8d342e5ae82d097a5f887580ecdf2e9f.setIcon(icon_49ef25b7b78f7d05b64f2a10b6ab38fc);
+        
+    
+        var popup_f95317e6aa00c3990c2e8d7e4d14022b = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_370e83fd3111bed1f8087349599c9637 = $(`<div id="html_370e83fd3111bed1f8087349599c9637" style="width: 100.0%; height: 100.0%;">Incendio: CERRO ALVARADO, Área: 19.0 ha</div>`)[0];
+                popup_f95317e6aa00c3990c2e8d7e4d14022b.setContent(html_370e83fd3111bed1f8087349599c9637);
+            
+        
+
+        marker_8d342e5ae82d097a5f887580ecdf2e9f.bindPopup(popup_f95317e6aa00c3990c2e8d7e4d14022b)
+        ;
+
+        
+    
+    
+            var marker_efd7e298fca36c4fc4269bc29fb9262f = L.marker(
+                [-33.396, -70.715],
+                {}
+            ).addTo(map_e987a2afa8a1c44755592c0e27373b65);
+        
+    
+            var icon_2abfeb26961155ad061f1c0e9b876e9a = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "red", "prefix": "glyphicon"}
+            );
+            marker_efd7e298fca36c4fc4269bc29fb9262f.setIcon(icon_2abfeb26961155ad061f1c0e9b876e9a);
+        
+    
+        var popup_5762b762767f9510eae16fa4662d3b45 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_cccb7b7b42256cf8617ca1cae64ba1ff = $(`<div id="html_cccb7b7b42256cf8617ca1cae64ba1ff" style="width: 100.0%; height: 100.0%;">Incendio: CERRO RENCA, Área: 18.0 ha</div>`)[0];
+                popup_5762b762767f9510eae16fa4662d3b45.setContent(html_cccb7b7b42256cf8617ca1cae64ba1ff);
+            
+        
+
+        marker_efd7e298fca36c4fc4269bc29fb9262f.bindPopup(popup_5762b762767f9510eae16fa4662d3b45)
+        ;
+
+        
+    
+    
+            var marker_3f949dc2fb5fd7ba336c6c8963456a3a = L.marker(
+                [-33.547, -70.848],
+                {}
+            ).addTo(map_e987a2afa8a1c44755592c0e27373b65);
+        
+    
+            var icon_8cc58b4eea5fda3a0339270cd8ab5841 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "red", "prefix": "glyphicon"}
+            );
+            marker_3f949dc2fb5fd7ba336c6c8963456a3a.setIcon(icon_8cc58b4eea5fda3a0339270cd8ab5841);
+        
+    
+        var popup_7d6532011711997b7ff646c02be9dab2 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_3d95e1ec5316f41f32f4ec14f4bddbc7 = $(`<div id="html_3d95e1ec5316f41f32f4ec14f4bddbc7" style="width: 100.0%; height: 100.0%;">Incendio: EL TREBAL, Área: 16.0 ha</div>`)[0];
+                popup_7d6532011711997b7ff646c02be9dab2.setContent(html_3d95e1ec5316f41f32f4ec14f4bddbc7);
+            
+        
+
+        marker_3f949dc2fb5fd7ba336c6c8963456a3a.bindPopup(popup_7d6532011711997b7ff646c02be9dab2)
+        ;
+
+        
+    
+    
+            var marker_4be756b75eb71fc91dc1a0edfa55da53 = L.marker(
+                [-33.349, -70.843],
+                {}
+            ).addTo(map_e987a2afa8a1c44755592c0e27373b65);
+        
+    
+            var icon_f793cd659d1aa3964b4114e122a3af35 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "red", "prefix": "glyphicon"}
+            );
+            marker_4be756b75eb71fc91dc1a0edfa55da53.setIcon(icon_f793cd659d1aa3964b4114e122a3af35);
+        
+    
+        var popup_5fe99b623c61ba0b10a7d140f58af97b = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_d8f45d2f92c97581a43a84014b3493f1 = $(`<div id="html_d8f45d2f92c97581a43a84014b3493f1" style="width: 100.0%; height: 100.0%;">Incendio: NOVICIADO, Área: 10.0 ha</div>`)[0];
+                popup_5fe99b623c61ba0b10a7d140f58af97b.setContent(html_d8f45d2f92c97581a43a84014b3493f1);
+            
+        
+
+        marker_4be756b75eb71fc91dc1a0edfa55da53.bindPopup(popup_5fe99b623c61ba0b10a7d140f58af97b)
+        ;
+
+        
+    
+    
+            var marker_33b32b020f34ee3280f4b658ab63e7bb = L.marker(
+                [-33.431, -70.791],
+                {}
+            ).addTo(map_e987a2afa8a1c44755592c0e27373b65);
+        
+    
+            var icon_e8b0fc80137d20e04e4b3130eebaaa3c = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "red", "prefix": "glyphicon"}
+            );
+            marker_33b32b020f34ee3280f4b658ab63e7bb.setIcon(icon_e8b0fc80137d20e04e4b3130eebaaa3c);
+        
+    
+        var popup_e59b0d5f0a4e4a18d12a48fb177f32e1 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_39490f739bcdf2634031a7c08516136b = $(`<div id="html_39490f739bcdf2634031a7c08516136b" style="width: 100.0%; height: 100.0%;">Incendio: PUDAHUEL, Área: 17.0 ha</div>`)[0];
+                popup_e59b0d5f0a4e4a18d12a48fb177f32e1.setContent(html_39490f739bcdf2634031a7c08516136b);
+            
+        
+
+        marker_33b32b020f34ee3280f4b658ab63e7bb.bindPopup(popup_e59b0d5f0a4e4a18d12a48fb177f32e1)
+        ;
+
+        
+    
+    
+            var marker_5ef853aa0788ce5dc9c48ac56304f6f9 = L.marker(
+                [-33.578, -70.745],
+                {}
+            ).addTo(map_e987a2afa8a1c44755592c0e27373b65);
+        
+    
+            var icon_5793be68a4b2f063146c45bd1216729e = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "red", "prefix": "glyphicon"}
+            );
+            marker_5ef853aa0788ce5dc9c48ac56304f6f9.setIcon(icon_5793be68a4b2f063146c45bd1216729e);
+        
+    
+        var popup_a3212ff8969377e7047336a0aca2491b = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_8a4b30ec2d396cde1a0f78f74961fa86 = $(`<div id="html_8a4b30ec2d396cde1a0f78f74961fa86" style="width: 100.0%; height: 100.0%;">Incendio: RINCONADA DE CHENA 2, Área: 82.0 ha</div>`)[0];
+                popup_a3212ff8969377e7047336a0aca2491b.setContent(html_8a4b30ec2d396cde1a0f78f74961fa86);
+            
+        
+
+        marker_5ef853aa0788ce5dc9c48ac56304f6f9.bindPopup(popup_a3212ff8969377e7047336a0aca2491b)
+        ;
+
+        
+    
+    
+            var marker_c64691027992de861026c36c6221016a = L.marker(
+                [-34.151, -70.882],
+                {}
+            ).addTo(map_e987a2afa8a1c44755592c0e27373b65);
+        
+    
+            var icon_b2ac17c6f66977f1252b465b54cd0ae0 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "red", "prefix": "glyphicon"}
+            );
+            marker_c64691027992de861026c36c6221016a.setIcon(icon_b2ac17c6f66977f1252b465b54cd0ae0);
+        
+    
+        var popup_9d0d63f891148ee27e2cfed1a083c4fb = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_deae504694afe72fd7d6451f46640a4b = $(`<div id="html_deae504694afe72fd7d6451f46640a4b" style="width: 100.0%; height: 100.0%;">Incendio: PUNTA LO CORTEZ, Área: 15.0 ha</div>`)[0];
+                popup_9d0d63f891148ee27e2cfed1a083c4fb.setContent(html_deae504694afe72fd7d6451f46640a4b);
+            
+        
+
+        marker_c64691027992de861026c36c6221016a.bindPopup(popup_9d0d63f891148ee27e2cfed1a083c4fb)
+        ;
+
+        
+    
+    
+            var marker_06667cb91b0cc19b6676f17e68bbc668 = L.marker(
+                [-33.343, -70.628],
+                {}
+            ).addTo(map_e987a2afa8a1c44755592c0e27373b65);
+        
+    
+            var icon_f2d7a89cd447bdc78bcb497167867480 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "red", "prefix": "glyphicon"}
+            );
+            marker_06667cb91b0cc19b6676f17e68bbc668.setIcon(icon_f2d7a89cd447bdc78bcb497167867480);
+        
+    
+        var popup_9b93fd3f5363dfb915a4bcc8ea6f629c = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_81e800f9bc20d8bc55a72bd8f68a1885 = $(`<div id="html_81e800f9bc20d8bc55a72bd8f68a1885" style="width: 100.0%; height: 100.0%;">Incendio: Casas Viejas, Área: 15.0 ha</div>`)[0];
+                popup_9b93fd3f5363dfb915a4bcc8ea6f629c.setContent(html_81e800f9bc20d8bc55a72bd8f68a1885);
+            
+        
+
+        marker_06667cb91b0cc19b6676f17e68bbc668.bindPopup(popup_9b93fd3f5363dfb915a4bcc8ea6f629c)
+        ;
+
+        
+    
+</script>
+</html>
