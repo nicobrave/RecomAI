@@ -5,9 +5,10 @@ pymongo
 openai==0.28.0
 Flask
 flask-cors
+waitress
 gunicorn
 apscheduler
 pytesseract==0.3.8
 pdfplumber==0.5.28
 folium
-
+python-3.11
