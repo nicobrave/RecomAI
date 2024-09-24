@@ -11,18 +11,20 @@ import io
 def descargar_csv_desde_drive():
     url = "https://drive.google.com/uc?export=download&id=1c-Ekzr-Ys4ea7G9RMfXkBI0OcziaN-ih"
     response = requests.get(url)
- 
+
     if response.status_code == 200:
         csv_data = io.StringIO(response.text)
-        # Leer el archivo CSV en partes (chunks)
-        chunk_size = 10000  # Cambia esto según tus necesidades
+        
+        # Procesar el CSV en chunks para evitar problemas de memoria
+        chunk_size = 5000  # Reduce el tamaño si es necesario
         df_iter = pd.read_csv(csv_data, sep=';', quotechar='"', encoding='utf-8', chunksize=chunk_size)
-        df = pd.concat(df_iter)  # Concatena los chunks en un solo DataFrame
-        return df
+
+        # Si quieres procesar el archivo completo y no por chunks:
+        df_completo = pd.concat(df_iter)
+        return df_completo
     else:
         print(f"Error al descargar el CSV: {response.status_code}")
         return None
-
 
 # Extraer el texto del archivo PDF
 def extraer_texto_pdf(pdf_path):
@@ -36,7 +38,7 @@ def extraer_texto_pdf(pdf_path):
     except Exception as e:
         print(f"Error al extraer texto del PDF: {e}")
         return None
-
+    
 # Descargar y leer el CSV de incendios históricos desde Google Drive
 df = descargar_csv_desde_drive()
 
@@ -78,7 +80,7 @@ def generar_mapa_incendios(df, lat, lon):
     folium.Marker([lat, lon], popup="Tu ubicación", icon=folium.Icon(color="blue")).add_to(mapa)
 
     # Filtrar incendios cercanos
-    df_filtrado = df[(df['Latitude'] <= lat + 0.5) & (df['Latitude'] >= lat - 0.5) &
+    df_filtrado = df[(df['Latitude'] <= lat + 0.5) & (df['Latitude'] >= lat - 0.5) & 
                      (df['Longitude'] <= lon + 0.5) & (df['Longitude'] >= lon - 0.5)]
 
     # Añadir incendios históricos al mapa
