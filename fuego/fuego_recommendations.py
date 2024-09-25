@@ -4,33 +4,31 @@ import folium
 import os
 import datetime
 import requests
-import io
+import pdfplumber
 
-# Descargar el CSV desde Google Drive
-def descargar_csv_desde_drive():
-    url = "https://drive.google.com/uc?export=download&id=1c-Ekzr-Ys4ea7G9RMfXkBI0OcziaN-ih"
-    response = requests.get(url)
+# Cargar el CSV de incendios históricos
+csv_path = "fuego/Base de datos histórica de cicatrices de incendios chilenos - 1. Resumen.csv"
 
-    if response.status_code == 200:
-        csv_data = io.StringIO(response.text)
-        
-        # Procesar el CSV en chunks para evitar problemas de memoria
-        chunk_size = 5000  # Reduce el tamaño si es necesario
-        df_iter = pd.read_csv(csv_data, sep=';', quotechar='"', encoding='utf-8', chunksize=chunk_size)
+# Ruta relativa al archivo PDF en tu proyecto
+pdf_path = os.path.join(os.getcwd(), 'cliente2', 'Suelos-de-Chile.pdf')
 
-        # Si quieres procesar el archivo completo y no por chunks:
-        df_completo = pd.concat(df_iter)
-        return df_completo
-    else:
-        print(f"Error al descargar el CSV: {response.status_code}")
+def extraer_texto_pdf(csv_path):
+    try:
+        # Abrir y procesar el PDF
+        with pdfplumber.open(csv_path) as pdf:
+            texto = ""
+            for pagina in pdf.pages:
+                texto += pagina.extract_text()
+            return texto.strip()
+    except Exception as e:
+        print(f"Error al extraer texto del PDF: {e}")
         return None
 
-# Descargar y leer el CSV de incendios históricos desde Google Drive
-df = descargar_csv_desde_drive()
+# Leer el archivo CSV
+df = pd.read_csv(csv_path, sep=';', quotechar='"', encoding='utf-8')
 
-if df is not None:
-    # Asegúrate de que las columnas tienen los nombres correctos
-    df.columns = df.columns.str.replace('Latitude', 'Latitude').str.replace('Longitude', 'Longitude')
+# Asegúrate de que las columnas tienen los nombres correctos
+df.columns = df.columns.str.replace('Latitude', 'Latitude').str.replace('Longitude', 'Longitude')
 
 # Configurar la API key de OpenAI desde las variables de entorno
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -63,7 +61,7 @@ def generar_mapa_incendios(df, lat, lon):
     folium.Marker([lat, lon], popup="Tu ubicación", icon=folium.Icon(color="blue")).add_to(mapa)
 
     # Filtrar incendios cercanos
-    df_filtrado = df[(df['Latitude'] <= lat + 0.5) & (df['Latitude'] >= lat - 0.5) & 
+    df_filtrado = df[(df['Latitude'] <= lat + 0.5) & (df['Latitude'] >= lat - 0.5) &
                      (df['Longitude'] <= lon + 0.5) & (df['Longitude'] >= lon - 0.5)]
 
     # Añadir incendios históricos al mapa
@@ -89,11 +87,17 @@ def obtener_recomendacion_fuego(lat, lon):
             humedad = datos_climaticos['main']['humidity']
             velocidad_viento = datos_climaticos['wind']['speed']
 
-            # Usar los datos climáticos en el prompt de OpenAI
+            # Extraer texto del PDF
+            texto_pdf = extraer_texto_pdf(csv_path)
+            if not texto_pdf:
+                return "Error al procesar el archivo PDF.", None
+
+            # Usar los datos climáticos y el contenido del PDF en el prompt de OpenAI
             prompt = (
                 f"Estoy en las coordenadas latitud {lat} y longitud {lon}, "
                 f"con una temperatura de {temperatura}°C, humedad de {humedad}% y viento a {velocidad_viento} m/s. "
-                f"Deseo obtener recomendaciones para la prevención de incendios forestales para la temporada actual, teniendo en cuenta estos factores climáticos. "
+                f"Además, tengo un informe sobre suelos con el siguiente contenido relevante: {texto_pdf}. "
+                f"Deseo obtener recomendaciones para la prevención de incendios forestales para la temporada actual, teniendo en cuenta esta información y los datos climáticos actuales. "
                 f"Proporciona una respuesta basada en estos factores para reducir el riesgo de incendios."
             )
             
