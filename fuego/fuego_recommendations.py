@@ -4,7 +4,6 @@ import folium
 import os
 import datetime
 import requests
-import pdfplumber
 import io
 
 # Descargar el CSV desde Google Drive
@@ -26,28 +25,12 @@ def descargar_csv_desde_drive():
         print(f"Error al descargar el CSV: {response.status_code}")
         return None
 
-# Extraer el texto del archivo PDF
-def extraer_texto_pdf(pdf_path):
-    try:
-        # Abrir y procesar el PDF
-        with pdfplumber.open(pdf_path) as pdf:
-            texto = ""
-            for pagina in pdf.pages:
-                texto += pagina.extract_text()
-            return texto.strip()
-    except Exception as e:
-        print(f"Error al extraer texto del PDF: {e}")
-        return None
-    
 # Descargar y leer el CSV de incendios históricos desde Google Drive
 df = descargar_csv_desde_drive()
 
 if df is not None:
     # Asegúrate de que las columnas tienen los nombres correctos
     df.columns = df.columns.str.replace('Latitude', 'Latitude').str.replace('Longitude', 'Longitude')
-
-# Ruta relativa al archivo PDF en tu proyecto
-pdf_path = os.path.join(os.getcwd(), 'cliente2', 'Suelos-de-Chile.pdf')
 
 # Configurar la API key de OpenAI desde las variables de entorno
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -106,17 +89,11 @@ def obtener_recomendacion_fuego(lat, lon):
             humedad = datos_climaticos['main']['humidity']
             velocidad_viento = datos_climaticos['wind']['speed']
 
-            # Extraer texto del PDF
-            texto_pdf = extraer_texto_pdf(pdf_path)
-            if not texto_pdf:
-                return "Error al procesar el archivo PDF.", None
-
-            # Usar los datos climáticos y el contenido del PDF en el prompt de OpenAI
+            # Usar los datos climáticos en el prompt de OpenAI
             prompt = (
                 f"Estoy en las coordenadas latitud {lat} y longitud {lon}, "
                 f"con una temperatura de {temperatura}°C, humedad de {humedad}% y viento a {velocidad_viento} m/s. "
-                f"Además, tengo un informe sobre suelos con el siguiente contenido relevante: {texto_pdf}. "
-                f"Deseo obtener recomendaciones para la prevención de incendios forestales para la temporada actual, teniendo en cuenta esta información y los datos climáticos actuales. "
+                f"Deseo obtener recomendaciones para la prevención de incendios forestales para la temporada actual, teniendo en cuenta estos factores climáticos. "
                 f"Proporciona una respuesta basada en estos factores para reducir el riesgo de incendios."
             )
             

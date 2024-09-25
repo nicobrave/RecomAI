@@ -2,6 +2,8 @@ import openai
 import datetime
 import os
 import pdfplumber
+import requests
+import io
 from dotenv import load_dotenv
 
 # Cargar variables de entorno desde el archivo .env
@@ -10,13 +12,22 @@ load_dotenv()
 # Configurar la API key de OpenAI desde las variables de entorno
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-# Ruta al PDF
-pdf_path = r"C:\Users\Usuario\Desktop\RecomAI\cliente2\Suelos-de-Chile.pdf"
+# Descargar el PDF desde Google Drive
+def descargar_pdf_desde_drive():
+    url = "https://drive.google.com/uc?export=download&id=1bwSOmhtswQ-4kpDPThisCgQTTAPHlRnE"
+    response = requests.get(url)
 
-def extraer_texto_pdf(pdf_path):
+    if response.status_code == 200:
+        pdf_data = io.BytesIO(response.content)
+        return pdf_data
+    else:
+        print(f"Error al descargar el PDF: {response.status_code}")
+        return None
+
+def extraer_texto_pdf(pdf_data):
     """Extrae el texto de un archivo PDF usando pdfplumber."""
     try:
-        with pdfplumber.open(pdf_path) as pdf:
+        with pdfplumber.open(pdf_data) as pdf:
             texto = ''
             for page in pdf.pages:
                 texto += page.extract_text()
@@ -52,8 +63,12 @@ def generar_recomendacion_comercial(texto_extraido, lat, lon):
         return f"Error al generar la recomendación: {str(e)}"
 
 def generar_recomendacion_cultivo(lat, lon):
-    # Extraer texto del PDF
-    texto_pdf = extraer_texto_pdf(pdf_path)
+    # Descargar y extraer el texto del PDF desde Google Drive
+    pdf_data = descargar_pdf_desde_drive()
+    if not pdf_data:
+        return "Error al descargar el archivo PDF."
+
+    texto_pdf = extraer_texto_pdf(pdf_data)
     if "Error" in texto_pdf:
         return texto_pdf
 
