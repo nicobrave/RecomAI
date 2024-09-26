@@ -119,7 +119,7 @@ def generar_recomendacion_openai(df_trabajadores, cargo=None, comuna=None, nivel
             return {"recomendacion": "No se encontraron perfiles exactos, pero aquí tienes una recomendación general: considera ajustar los criterios de búsqueda."}
 
         # Limitar el número de perfiles enviados a OpenAI (ej. 10 perfiles)
-        perfiles_finales = perfiles_filtrados_comuna[:10]
+        perfiles_finales = perfiles_filtrados_comuna[:25]
 
         # Crear el prompt en formato de mensajes para el modelo de chat
         # Manejar la inclusión de la comuna solo si está proporcionada
