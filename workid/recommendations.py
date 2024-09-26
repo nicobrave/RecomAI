@@ -54,19 +54,21 @@ def generar_recomendacion_openai(df_trabajadores, cargo=None, comuna=None, nivel
 
         # Buscar el número de años de experiencia si está especificado en el texto de búsqueda
         anos_experiencia = None
-        match = re.search(r'(\d+) años de experiencia', cargo)
-        if match:
-            anos_experiencia = match.group(1)  # Convertir a cadena para comparación
-            print(f"Años de experiencia especificados: {anos_experiencia}")
+        if cargo:
+            match = re.search(r'(\d+) años de experiencia', cargo)
+            if match:
+                anos_experiencia = match.group(1)  # Convertir a cadena para comparación
+                print(f"Años de experiencia especificados: {anos_experiencia}")
 
         # Filtrar por cargo y comuna exacta
         if cargo is not None:
             perfiles_filtrados = [p for p in perfiles if any(palabra in p['Ultimo Cargo'] for palabra in palabras_clave)]
             print(f"Perfiles después de filtrar por cargo: {len(perfiles_filtrados)}")
 
-            # Filtrar por comuna exacta
-            if comuna is not None:
-                perfiles_filtrados_comuna = [p for p in perfiles_filtrados if comuna.lower().strip() == p['Comuna']]
+            # Filtrar por comuna exacta si se proporciona
+            if comuna:
+                comuna_lower = comuna.lower().strip()
+                perfiles_filtrados_comuna = [p for p in perfiles_filtrados if comuna_lower == p['Comuna']]
                 print(f"Perfiles después de filtrar por comuna exacta ('{comuna}'): {len(perfiles_filtrados_comuna)}")
             else:
                 perfiles_filtrados_comuna = perfiles_filtrados
@@ -74,21 +76,23 @@ def generar_recomendacion_openai(df_trabajadores, cargo=None, comuna=None, nivel
             perfiles_filtrados_comuna = perfiles
 
         # Si no se encuentran perfiles exactos en la comuna, consultamos a la IA para sugerir comunas cercanas
-        if len(perfiles_filtrados_comuna) == 0 and comuna is not None:
+        if len(perfiles_filtrados_comuna) == 0 and comuna:
             # Crear un prompt dinámico para consultar a la IA sobre comunas cercanas
-            prompt = f"Por favor, sugiere comunas que estén geográficamente cerca de '{comuna}' y que sean factibles para un desplazamiento razonable."
+            prompt = f"Por favor, sugiere comunas que estén geográficamente cerca de '{comuna}' y que sean factibles para un desplazamiento razonable, incluyendo los kilometros de distancia."
 
             # Llamar al modelo de OpenAI para obtener una lista de comunas cercanas
-            response = openai.ChatCompletion.create(
-                model="gpt-4o",
-                messages=[{"role": "system", "content": "Eres un asistente experto en geografía y ayudando en reclutamientode recursos humanos."},
-                          {"role": "user", "content": prompt}],
+            response_ia = openai.ChatCompletion.create(
+                model="gpt-4",
+                messages=[
+                    {"role": "system", "content": "Eres un asistente experto en geografía y reclutamiento de recursos humanos."},
+                    {"role": "user", "content": prompt}
+                ],
                 max_tokens=150,
                 temperature=0.5
             )
 
             # Procesar la respuesta de la IA para obtener las comunas sugeridas
-            comunas_sugeridas = [comuna.strip() for comuna in response.choices[0].message['content'].lower().split(",")]
+            comunas_sugeridas = [comuna.strip() for comuna in response_ia.choices[0].message['content'].lower().split(",")]
             print(f"Comunas sugeridas por la IA: {comunas_sugeridas}")
 
             # Buscar perfiles en las comunas sugeridas
@@ -118,8 +122,14 @@ def generar_recomendacion_openai(df_trabajadores, cargo=None, comuna=None, nivel
         perfiles_finales = perfiles_filtrados_comuna[:10]
 
         # Crear el prompt en formato de mensajes para el modelo de chat
+        # Manejar la inclusión de la comuna solo si está proporcionada
+        if comuna:
+            prompt_inicial = f"Eres experto reclutando perfiles para minería y entiendes la flexibilidad en los criterios ingresados para privilegiar siempre una recomendación de perfil de manera clara y cercana, con un vocabulario simple y que no exceda los 1000 caracteres. Quiero la respuesta en un párrafo lineal y coherente sin redundancias y muy amigable. Ayúdame buscando perfiles adecuados para el cargo '{cargo}' en la comuna '{comuna}'. Lo más importante es el cargo del postulante, si bien la ubicación es un factor importante, por lo que se priorizan perfiles cercanos a esta comuna, siempre debe tener un peso mayor el cargo solicitado. Si no encuentras un perfil exacto, sugiere el más apto o el que podría servir, pero solo uno, en el cargo según su experiencia y justifica la ubicación y la decisión sobre ese candidato. Ten alta consideración con los perfiles con discapacidad, menciónalo si cumple. Aquí tienes los perfiles:"
+        else:
+            prompt_inicial = f"Eres experto reclutando perfiles para minería y entiendes la flexibilidad en los criterios ingresados para privilegiar siempre una recomendación de perfil de manera clara y cercana, con un vocabulario simple y que no exceda los 1000 caracteres. Quiero la respuesta en un párrafo lineal y coherente sin redundancias y muy amigable. Ayúdame buscando perfiles adecuados para el cargo '{cargo}'. Lo más importante es el cargo del postulante. Si no encuentras un perfil exacto, sugiere el más apto o el que podría servir, pero solo uno, en el cargo según su experiencia y justifica la decisión sobre ese candidato. Ten alta consideración con los perfiles con discapacidad, menciónalo si cumple. Aquí tienes los perfiles:"
+
         messages = [
-            {"role": "user", "content": f"Eres experto reclutando perfiles para minería y entiendes la flexibilidad en los criterios ingresados para privilegiar siempre una recomendación de perfil de manera clara y cercana, con un vocabulario simple y que no exceda los 1000 caracteres. Quiero la respuesta en un párrafo lineal y coherente sin redundancias y muy amigable. Ayúdame buscando perfiles adecuados para el cargo '{cargo}' en la comuna '{comuna}'. Lo más importante es el cargo del postulante, si bien la ubicación es un factor importante, por lo que se priorizan perfiles cercanos a esta comuna, siempre debe tener un peso mayor el cargo solicitado. Si no encuentras un perfil exacto, sugiere el más apto o el que podría servir, pero solo uno, en el cargo según su experiencia y justifica la ubicación y la decisión sobre ese candidato. Ten alta consideración con los perfiles con discapacidad, menciónalo si cumple. Aquí tienes los perfiles:"}
+            {"role": "user", "content": prompt_inicial}
         ]
 
         for perfil in perfiles_finales:
@@ -133,16 +143,16 @@ def generar_recomendacion_openai(df_trabajadores, cargo=None, comuna=None, nivel
             )
             messages.append({"role": "user", "content": perfil_info})
 
-        # Llamar al endpoint de chat para el modelo gpt-3.5-turbo
-        response = openai.ChatCompletion.create(
-            model="gpt-4o",
+        # Llamar al endpoint de chat para el modelo gpt-4
+        response_chat = openai.ChatCompletion.create(
+            model="gpt-4",
             messages=messages,
             max_tokens=300,
-            temperature=0.7
+            temperature=0.2
         )
 
         # Retornar la recomendación generada por OpenAI
-        return {"recomendacion": response.choices[0].message['content'].strip()}
+        return {"recomendacion": response_chat.choices[0].message['content'].strip()}
     except Exception as e:
         print(f"Error al generar la recomendación: {e}")
         return {"error": f"Error interno al generar la recomendación: {e}"}
