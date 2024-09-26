@@ -76,15 +76,15 @@ def generar_recomendacion_openai(df_trabajadores, cargo=None, comuna=None, nivel
         # Si no se encuentran perfiles exactos en la comuna, consultamos a la IA para sugerir comunas cercanas
         if len(perfiles_filtrados_comuna) == 0 and comuna is not None:
             # Crear un prompt dinámico para consultar a la IA sobre comunas cercanas
-            prompt = f"Estoy buscando un perfil para el cargo '{cargo}' en la comuna '{comuna}', y la ubicación es un factor importante. Por favor, sugiere comunas que estén geográficamente cerca de '{comuna}' y que sean factibles para un desplazamiento razonable."
+            prompt = f"Por favor, sugiere comunas que estén geográficamente cerca de '{comuna}' y que sean factibles para un desplazamiento razonable."
 
             # Llamar al modelo de OpenAI para obtener una lista de comunas cercanas
             response = openai.ChatCompletion.create(
                 model="gpt-4o",
-                messages=[{"role": "system", "content": "Eres un asistente experto en geografía y ayudando en el reclutamiento."},
+                messages=[{"role": "system", "content": "Eres un asistente experto en geografía y ayudando en reclutamientode recursos humanos."},
                           {"role": "user", "content": prompt}],
                 max_tokens=150,
-                temperature=0.7
+                temperature=0.5
             )
 
             # Procesar la respuesta de la IA para obtener las comunas sugeridas
@@ -106,6 +106,10 @@ def generar_recomendacion_openai(df_trabajadores, cargo=None, comuna=None, nivel
             perfiles_filtrados_comuna = [p for p in perfiles_filtrados_comuna if anos_experiencia in p['Ultimo Detalle de Experiencia']]
             print(f"Perfiles después de filtrar por años de experiencia: {len(perfiles_filtrados_comuna)}")
 
+        # Priorizar perfiles con discapacidad
+        perfiles_filtrados_comuna.sort(key=lambda x: x['Discapacidad'] != 'Sí', reverse=True)
+        print(f"Perfiles después de priorizar discapacidad: {len(perfiles_filtrados_comuna)}")
+
         # Si no se encuentran perfiles ni siquiera parcialmente, devolver una recomendación general
         if len(perfiles_filtrados_comuna) == 0:
             return {"recomendacion": "No se encontraron perfiles exactos, pero aquí tienes una recomendación general: considera ajustar los criterios de búsqueda."}
@@ -115,8 +119,7 @@ def generar_recomendacion_openai(df_trabajadores, cargo=None, comuna=None, nivel
 
         # Crear el prompt en formato de mensajes para el modelo de chat
         messages = [
-            {"role": "system", "content": "Eres experto reclutando perfiles para minería y entiendes la flexibilidad en los criterios ingresados para privilegiar siempre una recomendación de perfil de manera clara y cercana, con un vocabulario simple y que no exceda los 300 tokens. En un párrafo lineal y coherente sin redundancias. Muy amigable."},
-            {"role": "user", "content": f"Estoy buscando perfiles adecuados para el cargo '{cargo}' en la comuna '{comuna}'. Lo más importante es el cargo del postulante, si bien la ubicación es un factor importante, por lo que se priorizan perfiles cercanos a esta comuna, siempre debe tener un peso mayor el cargo solicitado. Si no encuentras un perfil exacto, sugiere el más apto o el que podría servir, pero solo uno, en el cargo según su experiencia y justifica la ubicación y la decisión sobre ese candidato. Aquí tienes los perfiles:"}
+            {"role": "user", "content": f"Eres experto reclutando perfiles para minería y entiendes la flexibilidad en los criterios ingresados para privilegiar siempre una recomendación de perfil de manera clara y cercana, con un vocabulario simple y que no exceda los 1000 caracteres. Quiero la respuesta en un párrafo lineal y coherente sin redundancias y muy amigable. Ayúdame buscando perfiles adecuados para el cargo '{cargo}' en la comuna '{comuna}'. Lo más importante es el cargo del postulante, si bien la ubicación es un factor importante, por lo que se priorizan perfiles cercanos a esta comuna, siempre debe tener un peso mayor el cargo solicitado. Si no encuentras un perfil exacto, sugiere el más apto o el que podría servir, pero solo uno, en el cargo según su experiencia y justifica la ubicación y la decisión sobre ese candidato. Ten alta consideración con los perfiles con discapacidad, menciónalo si cumple. Aquí tienes los perfiles:"}
         ]
 
         for perfil in perfiles_finales:
@@ -126,6 +129,7 @@ def generar_recomendacion_openai(df_trabajadores, cargo=None, comuna=None, nivel
                 f"Comuna: {perfil['Comuna']}\n"
                 f"Estudio: {perfil['Ultimo Estudio']}\n"
                 f"Detalles de experiencia: {perfil['Ultimo Detalle de Experiencia']}\n"
+                f"Discapacidad: {perfil['Discapacidad']}\n"
             )
             messages.append({"role": "user", "content": perfil_info})
 
