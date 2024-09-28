@@ -41,8 +41,8 @@ h1, h2, h3 {
 }
 
 .hero-section .btn-primary {
-    background-color: #D32F2F; /* Color rojo del logo */
-    color: #fff;
+    background-color: #25D366; /* Color rojo del logo */
+    color: #000000;
     padding: 15px 30px;
     text-decoration: none;
     border-radius: 5px;
@@ -73,7 +73,7 @@ h1, h2, h3 {
 
 
 .hero-section .btn-primary:hover {
-    background-color: #B71C1C; /* Un rojo más oscuro al pasar el cursor */
+    background-color: #b6f0cb; /* Un verde más claro al pasar el cursor */
 }
 
 @media (max-width: 768px) {
@@ -120,68 +120,72 @@ p, ol {
 }
 /* Estilos para la sección de beneficios */
 .benefits-section {
-    padding: 60px 0;
-    background-color: #fff; /* Fondo blanco para un aspecto limpio */
+    padding: 80px 0;
+    background-color: #ffffff; /* Fondo ligeramente gris para contraste */
 }
 
 .benefits-section h2 {
     text-align: center;
     font-size: 2.5em;
-    margin-bottom: 50px;
+    margin-bottom: 60px;
     color: #333;
 }
 
 .benefits {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas pequeñas */
+    justify-content: center;
+    gap: 30px; /* Espacio uniforme entre elementos */
 }
 
 .benefit {
-    flex: 1 1 30%;
-    background-color: #f7f7f7;
-    margin: 0 10px;
-    padding: 30px 20px;
-    text-align: left;
-    border-radius: 8px;
+    flex: 1 1 300px; /* Ancho mínimo para mantener consistencia */
+    background-color: #fff;
+    padding: 40px 30px;
+    text-align: center;
+    border-radius: 12px;
     box-sizing: border-box;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .benefit h3 {
-    font-size: 1.4em;
-    margin-bottom: 15px;
-    color: #D32F2F; /* Color corporativo */
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    color: #d32f2f; /* Color corporativo */
 }
 
 .benefit p {
-    font-size: 1em;
+    font-size: 1.1em;
     color: #555;
-    line-height: 1.6;
+    line-height: 1.8;
 }
 
 .benefit:hover {
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-    transform: translateY(-5px);
-    transition: all 0.3s ease;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    transform: translateY(-10px);
 }
 
 @media (max-width: 992px) {
+    .benefits {
+        gap: 20px;
+    }
     .benefit {
         flex: 1 1 45%;
-        margin-bottom: 20px;
     }
 }
 
 @media (max-width: 768px) {
     .benefits {
         flex-direction: column;
+        align-items: center;
     }
     .benefit {
-        flex: 1 1 100%;
-        margin: 10px 0;
+        flex: 1 1 80%;
+        margin-bottom: 20px;
     }
 }
+
 
 
 /* Estilos para la sección de soluciones */
@@ -245,7 +249,7 @@ p, ol {
 /* Estilos para la sección de ética */
 .ethics-section {
     padding: 60px 0;
-    background-color: #f5f5f5; /* Mismo color suave del hero */
+    background-color: #ffffff; /* Mismo color suave del hero */
     color: #333;
     text-align: center;
 }
@@ -413,7 +417,7 @@ p, ol {
 /* Estilos para la sección de llamada a la acción */
 .cta-section {
     padding: 60px 0;
-    background-color: #f5f5f5; /* Mismo color suave del hero */
+    background-color: #f3f3f3; /* Mismo color suave del hero */
     color: #333;
     text-align: center;
 }
@@ -463,3 +467,4 @@ footer a {
     color: #ff4b4b;
     text-decoration: none;
 }
+
