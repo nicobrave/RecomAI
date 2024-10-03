@@ -16,8 +16,10 @@ def crear_usuario(nombre, email, plan="basico"):
     return nuevo_usuario
 
 if __name__ == "__main__":
-    # Ejemplo de creación de un usuario
-    nombre = "Prueba"
-    email = "prueba@example.com"
-    usuario_creado = crear_usuario(nombre, email)
+
+    # Crear usuario con valores predefinidos
+    nombre = "WorkID"
+    email = "nico@recomai.cl"
+    plan = "basico"
+    usuario_creado = crear_usuario(nombre, email, plan)
     print(f"Usuario creado con ID: {usuario_creado['_id']}, API Key: {usuario_creado['api_key']}")

@@ -1,13 +1,10 @@
-# test_imports.py
+from database import db_recomai  # Asegúrate de importar correctamente tu base de datos
 
-from database import init_db_recomai
+# Realiza la consulta a la colección de usuarios con la API Key que quieres validar
+usuario = db_recomai.usuarios.find_one({"api_key": "14af42625ea1a749250734a53742f8558cbcfb875ad2ce9d3e930bfcb0321926"})
 
-def test_init_db_recomai():
-    try:
-        init_db_recomai()
-        print("init_db_recomai importado y ejecutado correctamente.")
-    except Exception as e:
-        print(f"Error al importar o ejecutar init_db_recomai: {e}")
-
-if __name__ == "__main__":
-    test_init_db_recomai()
+# Verifica si encontró el usuario
+if usuario:
+    print("Usuario encontrado:", usuario)
+else:
+    print("API Key no encontrada o inválida")

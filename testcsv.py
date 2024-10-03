@@ -1,10 +1,4 @@
-import pandas as pd
+from database import db_recomai
 
-# Ruta del archivo CSV
-csv_path = 'C:/Users/Usuario/Desktop/RecomAI/fuego/Base de datos histórica de cicatrices de incendios chilenos - 1. Resumen.csv'
-
-# Cargar el archivo CSV utilizando punto y coma como delimitador
-df = pd.read_csv(csv_path, sep=';', quotechar='"', encoding='utf-8')
-
-# Mostrar las primeras filas para verificar
-print(df.head())
+usuario = db_recomai.usuarios.find_one({"api_key": "14af42625ea1a749250734a53742f8558cbcfb875ad2ce9d3e930bfcb0321926"})
+print(usuario)

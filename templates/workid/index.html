@@ -157,12 +157,15 @@
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-API-KEY': '14af42625ea1a749250734a53742f8558cbcfb875ad2ce9d3e930bfcb0321926'
+                        'X-API-KEY': '3ed554dc-e85c-457a-bf32-ac8848da4398' // Replace with the actual API key
                     }
                 })
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error(`Error en la solicitud: ${response.status}`);
+                        // Check if the response has any error
+                        return response.json().then(errData => {
+                            throw new Error(errData.detail || `Error en la solicitud: ${response.status}`);
+                        });
                     }
                     return response.json();
                 })
@@ -175,11 +178,12 @@
                 })
                 .catch(error => {
                     console.error('Error al obtener la recomendación:', error);
-                    alert('Hubo un error al obtener la recomendación. Por favor, intenta nuevamente.');
+                    alert(`Hubo un error al obtener la recomendación: ${error.message}`);
                 });
             });
         });
     </script>
+    
 </body>
 
 </html>

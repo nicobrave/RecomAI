@@ -10,19 +10,23 @@ MONGO_URI_RECOMAI = os.getenv("MONGO_URI_RECOMAI")
 client_recomai = MongoClient(MONGO_URI_RECOMAI)
 db_recomai = client_recomai.recomAI  # Conecta a la base de datos 'recomAI'
 
+# Definir la colección de usuarios
+usuarios_collection = db_recomai['usuarios']
+
 def init_db_recomai():
     global client_recomai, db_recomai
     client_recomai = MongoClient(MONGO_URI_RECOMAI)
     db_recomai = client_recomai.recomAI  # Conecta a la base de datos 'recomAI'
 
 def obtener_usuario_por_api_key(api_key: str):
-    return db_recomai.usuarios.find_one({"api_key": api_key})
+    # Cambia db_recomai.usuarios por usuarios_collection
+    return usuarios_collection.find_one({"api_key": api_key})
 
 def incrementar_solicitudes(api_key: str):
     usuario = obtener_usuario_por_api_key(api_key)
     if usuario:
-        db_recomai.usuarios.update_one({"api_key": api_key}, {"$inc": {"solicitudes_realizadas": 1}})
-
+        # Cambia db_recomai.usuarios por usuarios_collection
+        usuarios_collection.update_one({"api_key": api_key}, {"$inc": {"solicitudes_realizadas": 1}})
 # --------------------------------------------------------
 # Configura la URI de conexión a MongoDB Atlas para Factura
 MONGO_URI_FACTURA = os.getenv("MONGO_URI_FACTURA")

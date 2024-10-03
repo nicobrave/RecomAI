@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subir CV</title>
+</head>
+<body>
+    <h1>Subir CV</h1>
+    <form action="/cv/upload_cv" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".jpg, .jpeg, .png, .pdf">
+        <button type="submit">Subir y Procesar</button>
+    </form>
+
+    <h2>Texto extraído con OCR:</h2>
+    <pre id="extracted_text"></pre>
+
+    <h2>Texto mejorado y formateado con Openai:</h2>
+    <pre id="improved_text"></pre>
+
+    <script>
+        // JavaScript para actualizar el contenido del HTML con el resultado de la mejora
+        async function handleSubmit(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const apiKey = "3ed554dc-e85c-457a-bf32-ac8848da4398";  
+            const response = await fetch('/cv/upload_cv', {
+                method: 'POST',
+                headers: {
+                    'X-API-KEY': apiKey 
+                },
+                body: formData
+            });
+            const data = await response.json();
+            document.getElementById('extracted_text').textContent = data.extracted_text;
+            document.getElementById('improved_text').textContent = JSON.stringify(data.improved_text, null, 2);
+        }
+
+        document.querySelector('form').addEventListener('submit', handleSubmit);
+    </script>
+</body>
+</html>

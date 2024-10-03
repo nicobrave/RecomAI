@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, jsonify
-from flask_cors import cross_origin
+from flask_cors import cross_origin, CORS
 from workid.recommendations import generar_recomendacion_openai, df_trabajadores
+from auth import validar_api_key  # Ensure this import is correct
 
 workid_bp = Blueprint('workid', __name__, template_folder='templates', static_folder='static')
 
@@ -11,17 +12,21 @@ def home():
 @workid_bp.route('/recomendaciones', methods=['GET', 'OPTIONS'])
 @cross_origin(origins='https://www.recomai.cl')
 def obtener_recomendaciones():
-    if request.method == 'OPTIONS':
-        return '', 200
+    # Validate API key
+    try:
+        usuario = validar_api_key()  # No need to pass request explicitly since Flask handles it globally
+    except Exception as e:
+        return jsonify({"error": str(e)}), 403
+
+    # Process the request as usual after validating the API key
+    cargo = request.args.get('cargo')
+    if not cargo:
+        return jsonify({"error": "El parámetro 'cargo' es requerido"}), 400
 
     # Obtener los parámetros de la solicitud
-    cargo = request.args.get('cargo')
     comuna = request.args.get('comuna')
     nivel_estudio = request.args.get('nivel_estudio')
     detalle_experiencia = request.args.get('detalle_experiencia')
-
-    if not cargo:
-        return jsonify({"error": "El parámetro 'cargo' es requerido"}), 400
 
     # Llamar a la función para generar la recomendación
     recomendacion = generar_recomendacion_openai(
