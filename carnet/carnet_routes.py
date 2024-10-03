@@ -26,7 +26,7 @@ def requiere_api_key(f):
     return decorated_function
 
 load_dotenv()
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "C:/Users/Usuario/Desktop/RecomAI/carnet/recomai-437320-927be399c83f.json"
+google_credentials_path = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
 
 carnet_bp = Blueprint('carnet_bp', __name__, template_folder='templates/carnet', static_folder='static/carnet')
 
